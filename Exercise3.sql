@@ -17,7 +17,7 @@
  varchar - It is used to specify a variable length string that can contain numbers, letters, and special characters.
 
 5. Write a SQL query to select all authors from the Authors table.
-   select * from authors;
+   select authors from authors;
 
 6. What does the NOT NULL constraint do?
   NOT NULL constraint, which ensures that a column cannot have NULL values.
