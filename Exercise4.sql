@@ -237,16 +237,16 @@ where phone_number = '2225636790';
 delete from Employees
 where job_title = 'senior accountant';
 
--- 3.delete records with 
+-- 3.delete records of employees whose hire date greater than equal to mentioned date 
 delete from Employees 
 where hire_date >= '2023-01-28';
 
--- 4. 
+-- 4.delete records of employees based on department id & job title
 delete from Employees 
 where department_id = 10 and job_title = 'admin%';
 
 -- 5. delete all records (use with caution)
-delete from mnc_Employees;
+delete from Employees;
 
 -- 4.rename query
 
@@ -256,7 +256,7 @@ alter database mnc rename to multinationalcompanies;
 -- 2.rename the Employees table
 alter table Employees rename to mnc_Employees;
 alter table mnc_Employees rename to Employees;
-employees
+
 select * from mnc_Employees;
 select * from multinationalcompanies;
 
@@ -308,7 +308,7 @@ select * from mnc_employees where position like  'manager%';
 select * from mnc_employees where position like  '%manager';
 
 
--- count no employee in each position
+-- count no. of employee in each position
 select position, count(*) as no_of_emp from mnc_employees  group by position order by position asc;
 select position, count(*) as no_of_emp, fname from mnc_employees  group by position, fname order by position asc;
 
