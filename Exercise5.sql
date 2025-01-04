@@ -54,7 +54,7 @@ INSERT INTO Departments (DepartmentID, DepartmentName, DepartmentHead, CreationD
 (9, 'Mathematics', 'Dr. Sneha Patil', '2016-04-15', 400000.00, 'Science Block', '022-90123456', 'maths@mumbaiuniversity.edu', 'Active'),
 (10, 'History', 'Dr. Amit Bhatia', '2015-12-01', 250000.00, 'Arts Block', '022-01234567', 'history@mumbaiuniversity.edu', 'Active');
 
-select * from departments;
+select * from departments; -- retrive departments table data
 truncate departments; -- Cannot truncate a table referenced in a foreign key constraint (`xyzcollege`.`faculty`, CONSTRAINT `faculty_ibfk_1`)
 drop table departments; -- Cannot drop table 'departments' referenced by a foreign key constraint 'faculty_ibfk_1' on table 'faculty'.
 delete from departments; -- delete all records successfully
@@ -62,11 +62,13 @@ delete from departments; -- delete all records successfully
 -- delete single record from departments table
 delete from departments where departmentid = 1;
 
--- updtae department name for department id - 10
+-- update department name for department id - 10
 update departments set departmentname = 'Computer science' where departmentid = 10;
+
+-- update department id for department id - 1
 update departments set departmentid = '12' where departmentid = 1;
 
--- updtae department name for department id - 12
+-- update department name and department id
 update departments set departmentname = 'Computer technology' where departmentid = 1;
 update departments set departmentname = 'Computer technology' where departmentid = 12;
 
@@ -108,9 +110,10 @@ INSERT INTO Faculty (FacultyID, FacultyName, DepartmentID, HireDate, Email, Phon
 (9, 'Mr. Vikram Singh', 4, '2022-02-01', 'vikram.singh@mumbaiuniversity.edu.in', '1098765432', 'Lecturer'),
 (10, 'Dr. Sneha Iyer', 5, '2020-12-12', 'sneha.iyer@mumbaiuniversity.edu.in', '0987654321', 'Associate Professor');
 
-select * from faculty;
-truncate faculty;
-drop table faculty;
+select * from faculty; -- retrive record from table
+truncate faculty; -- delete all records
+drop table faculty; -- delete all records from table 
+
 -- check department id is updated in child table 
 select * from faculty where DepartmentID = 12;
 
@@ -293,4 +296,43 @@ INSERT INTO Salary (SalaryID, FacultyID, SalaryAmount, PaymentDate, PaymentMetho
 
 select * from salary;
 
+-/* ------------------------------------------------------------------------
+				 ADD / DROP Constraint
+-- ------------------------------------------------------------------------- */
 
+-- 1. Adding a Foreign Key Constraint to the Marks table
+ALTER TABLE Marks
+ADD CONSTRAINT fk_student
+FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+-- 2. Adding a Unique Constraint to the Faculty table on Email
+ALTER TABLE Faculty
+ADD CONSTRAINT unique_faculty_email UNIQUE (Email);
+
+desc Faculty;
+
+-- 3. Adding a Check Constraint to the Salary table to ensure SalaryAmount is positive
+ALTER TABLE Salary
+ADD CONSTRAINT chk_salary_amount CHECK (SalaryAmount > 0);
+
+-- 4. Dropping a Foreign Key Constraint from the Marks table
+ALTER TABLE Marks
+DROP FOREIGN KEY fk_student;
+
+-- 5. Dropping a Unique Constraint from the Faculty table
+ALTER TABLE Faculty
+DROP INDEX uq_faculty_email;
+
+-- 6. Dropping a Check Constraint from the Salary table
+ALTER TABLE Salary
+DROP CHECK chk_salary_amount;
+
+-- 7. Adding a new Check Constraint to the Students table to ensure age is valid
+ALTER TABLE Students
+ADD CONSTRAINT chk_age CHECK (YEAR(CURDATE()) - YEAR(DateOfBirth) >= 0);
+
+-- 8. Dropping the Check Constraint from the Students table
+ALTER TABLE Students
+DROP CHECK chk_age;
