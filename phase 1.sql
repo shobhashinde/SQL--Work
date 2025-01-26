@@ -56,7 +56,7 @@ select * from bank_details;
 create table Branches (
     branch_id int primary key auto_increment,  -- Unique identifier for each Branches record
     branch_name varchar(100) NOT NULL, -- bank branch  name 
-    address varchar(255), -- address ofthe bank 
+    address varchar(255), -- address of the bank 
     city varchar(50), -- city of the bank
     state varchar(50), -- state of bank 
     postal_code varchar(10), -- postal_code of the bank
@@ -66,8 +66,8 @@ create table Branches (
     manager_id INT,  -- manager_id of the bank
     opening_date DATE,  -- opening_date of the bank
     status varchar(20) DEFAULT 'Active',  -- Bank is active or not means its open or permantely close
-    created_at timestamp default current_timestamp, 
-    updated_at timestamp default current_timestamp,
+    created_at timestamp default current_timestamp,  -- add time of the inserted record
+    updated_at timestamp default current_timestamp, -- update time when record updated
     bank_id int, -- foreign key 
     FOREIGN KEY (manager_id) REFERENCES Staff(staff_id)
     on delete set NULL
@@ -115,16 +115,16 @@ select * from branches;
 
 Create table customers (
 customer_id int primary key auto_increment, -- Unique identifier for each customer (Primary Key)
-cust_fname varchar(30) not null,
-cust_lname varchar(30) not null,
-cust_address varchar(100) not null,
-cust_city varchar(15) not null,
-cust_state varchar(15) not null,
-cust_postcode varchar(20) not null,
-cust_dob date,
-cust_phonenumber varchar(40) not null unique,
-cust_email varchar(40) not null unique,
-is_cust_active enum('1','0') not null
+cust_fname varchar(30) not null, -- customer first
+cust_lname varchar(30) not null, -- customer last name
+cust_address varchar(100) not null, -- customer address
+cust_city varchar(15) not null, -- customer city
+cust_state varchar(15) not null, -- customer state
+cust_postcode varchar(20) not null, -- customer postcode
+cust_dob date, -- customer date of birth
+cust_phonenumber varchar(40) not null unique, -- customer phonenumber
+cust_email varchar(40) not null unique, -- customer email id
+is_cust_active enum('1','0') not null -- customer is active or not
 );
 
 -- Inserting records into table
@@ -165,8 +165,8 @@ select * from customers;
 --------------------------------------------------------*/
 CREATE TABLE CustomerType (
     customer_type_id int primary key auto_increment, -- Unique identifier for each CustomerType 
-    customer_type_name varchar(60) not null unique,
-    description TEXT
+    customer_type_name varchar(60) not null unique, -- mention ed customer type like individual account customer, business related customer account etc
+    description TEXT -- mention description of the account tytpe
 );
 
 
@@ -208,44 +208,44 @@ select * from customertype;
 				 Table 5- Customer Credential
 --------------------------------------------------------*/
 create table CustomerCredential (
-    credential_id int primary key auto_increment, 
-    customer_id int,
-    cust_username varchar(50) NOT NULL UNIQUE,
-    cust_password varchar(255) NOT NULL,
-    cust_email varchar(40), 
-	cust_phonenumber varchar(40),
+    credential_id int primary key auto_increment, -- Unique identifier for each CustomerType 
+    customer_id int, -- it is primary key from customers table which we used in this table as foreign key
+    cust_username varchar(50) NOT NULL UNIQUE, -- customer unique user name will be created for each user
+    cust_password varchar(255) NOT NULL, -- unique password will be created & stored in this table
+    cust_email varchar(40), -- it is column from customers table which we used in this table 
+	cust_phonenumber varchar(40), -- -- it is column from customers table which we used in this table
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
-    is_active enum('1','0') not null,
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
-   FOREIGN KEY (cust_email) REFERENCES customers(cust_email)
-  
-);
+    is_active enum('1','0') not null, -- check customer is active or not
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    on update cascade
+    on delete set null
+    );
 
 
 -- Inserting records into table
 
-INSERT INTO CustomerCredential (cust_username, cust_password,cust_email)
-VALUES('johndoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','john.doe@example.com'), -- password: password123
-( 'janesmith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jane.smith@example.com'), -- password: mysecurepassword
-('michaeljohnson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','michael.johnson@example.com'), -- password: mjohnson2023
-('emilydavis', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','emily.davis@example.com'), -- password: emily123
-( 'davidwilson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','david.wilson@example.com'), -- password: wilson2023
-('sarahbrown', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','sarah.brown@example.com'), -- password: sarahsecure
-('jamesgarcia', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','james.garcia@example.com'), -- password: garcia2023
-('jessicamartinez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jessica.martinez@example.com'), -- password: martinez123
-('danielhernandez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','daniel.hernandez@example.com'), -- password: daniel2023
-('lauralopez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','laura.lopez@example.com'), -- password: laura123
-('matthewgonzalez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','matthew.gonzalez@example.com'), -- password: matthew123
-('sophiawilson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','sophia.wilson@example.com'), -- password: sophia123
-('christopheranderson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','christopher.anderson@example.com'), -- password: christopher123
-('oliviathomas', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','olivia.thomas@example.com'), -- password: olivia123
-('joshuataylor', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','joshua.taylor@example.com'), -- password: joshua123
-('avamoore', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','ava.moore@example.com'), -- password: ava123
-('ethanjackson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','ethan.jackson@example.com'), -- password: ethan123
-('miawhite', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','mia.white@example.com'), -- password: mia123
-('jackdoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jack.doe@example.com'), -- password: jack123
-('julismith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Juli.smith@example.com'); --  -- password: Juli123
+INSERT INTO CustomerCredential (customer_id,cust_username, cust_password,cust_email,cust_phonenumber)
+VALUES(1,'johndoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','john.doe@example.com',555-123-4567), -- password: password123
+(2, 'janesmith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jane.smith@example.com',555-234-5678), -- password: mysecurepassword
+(3,'michaeljohnson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','michael.johnson@example.com',555-345-6789), -- password: mjohnson2023
+(4,'emilydavis', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','emily.davis@example.com',555-456-7890), -- password: emily123
+( 5,'davidwilson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','david.wilson@example.com',555-567-8901), -- password: wilson2023
+(6,'sarahbrown', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','sarah.brown@example.com',555-678-9012), -- password: sarahsecure
+(7,'jamesgarcia', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','james.garcia@example.com',555-789-0123), -- password: garcia2023
+(8,'jessicamartinez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jessica.martinez@example.com',555-890-1234), -- password: martinez123
+(9,'danielhernandez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','daniel.hernandez@example.com',555-901-2345), -- password: daniel2023
+(10,'lauralopez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','laura.lopez@example.com',555-012-3456), -- password: laura123
+(11,'matthewgonzalez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','matthew.gonzalez@example.com',555-123-4568), -- password: matthew123
+(12,'sophiawilson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','sophia.wilson@example.com',555-234-5679), -- password: sophia123
+(13,'christopheranderson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','christopher.anderson@example.com',555-345-6780), -- password: christopher123
+(14,'oliviathomas', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','olivia.thomas@example.com',555-456-7891), -- password: olivia123
+(15,'joshuataylor', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','joshua.taylor@example.com',555-567-8902), -- password: joshua123
+(16,'avamoore', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','ava.moore@example.com',555-678-9013), -- password: ava123
+(17,'ethanjackson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','ethan.jackson@example.com',555-789-0124), -- password: ethan123
+(18,'miawhite', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','mia.white@example.com',555-890-1235), -- password: mia123
+(21,'jackdoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jack.doe@example.com',555-123-4589), -- password: jack123
+(22,'julismith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Juli.smith@example.com',555-234-5687); --  -- password: Juli123
 
 -- Drop the structure& records from the table
 drop table CustomerCredential; 
@@ -263,15 +263,15 @@ select * from CustomerCredential;
 
 create table staff (
 staff_id int primary key auto_increment, -- Unique identifier for each staff (Primary Key)
-staff_fname varchar(30) not null,
-staff_lname varchar(30) not null,
-staff_position varchar(50) not null,
-staff_email varchar(40) not null unique,
-staff_phonenumber varchar(40) not null unique,
-hire_date date not null,
-staff_branch_id varchar(6) not null,
-salary decimal(10, 2) not null check(salary > 0),
-is_staff_active enum('1','0') not null
+staff_fname varchar(30) not null, -- first name of the staff member
+staff_lname varchar(30) not null, -- last name of the staff member
+staff_position varchar(50) not null, -- position of the staff member in the bank
+staff_email varchar(40) not null unique, -- email id of the staff member
+staff_phonenumber varchar(40) not null unique, -- phone number of the staff member
+hire_date date not null, -- joining date of the staff member
+staff_branch_id varchar(6) not null, -- staff work for which bank branch
+salary decimal(10, 2) not null check(salary > 0), -- salary of the staff 
+is_staff_active enum('1','0') not null -- staff is currently active or not
 );
 
 
@@ -312,15 +312,15 @@ select * from staff;
 				 Table 7- Staff crdential
 --------------------------------------------------------*/
 create table StaffCredential (
-    Staffcredential_id int primary key auto_increment,
-    staff_id int,
-    username varchar(50) NOT NULL UNIQUE,
-    staff_password varchar(100) NOT NULL,
-    staff_email varchar(40), 
-    created_at timestamp default current_timestamp,
+    Staffcredential_id int primary key auto_increment, -- Unique identifier for each staff (Primary Key)
+    staff_id int, -- staff id is primary key in in satff table which we used as foreign key in this table
+    username varchar(50) NOT NULL UNIQUE, -- username for staff
+    staff_password varchar(100) NOT NULL, -- password for the staff account
+    staff_email varchar(40),  -- staff email id
+    created_at timestamp default current_timestamp, -- shows when last record created & updated 
     updated_at timestamp default current_timestamp,
-    is_active enum('1','0') not null,
-    last_login DATETIME,
+    is_active enum('1','0') not null, -- check staff is ative or not
+    last_login DATETIME, -- when staff ;ast login to his/her account
     FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
     on delete set null
     on update cascade,
@@ -331,27 +331,27 @@ create table StaffCredential (
 
 -- Inserting records into table
 
-INSERT INTO staffcredential (username,staff_password,staff_email)
-VALUES('johndoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','john.doe@bank.com'), -- password: password123
-('janesmith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jane.smith@bank.com'), -- password: mysecurepassword
-('michaeljohnson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','michael.johnson@bank.com'), -- password: mjohnson2023
-('emilydavis', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','emily.davis@bank.com'), -- password: emily123
-('davidwilson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','david.wilson@bank.com'), -- password: wilson2023
-('sarahbrown', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','sarah.brown@bank.com'), -- password: sarahsecure
-('jamesgarcia', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','james.garcia@bank.com'), -- password: garcia2023
-('jessicamartinez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jessica.martinez@bank.com'), -- password: martinez123
-('danielhernandez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','daniel.hernandez@bank.com'), -- password: daniel2023
-('lauralopez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','laura.lopez@bank.com'), -- password: laura123
-('matthewdoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Matthew.doe@bank.com'),  -- password: matthew123
-('janesmith1', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jane.smith1@bank.com'),
-('michaeljohnson1', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','michael.johnson1@bank.com'),
-('sophiadavis', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Sophia.davis@bank.com'),
-('davidwilson1', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','david.wilson1@bank.com'),
-('christopherbrown', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Christopher.brown@bank.com'),
-('oliviagarcia', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Olivia.garcia@bank.com'),
-('Joshuamartinez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Joshua.martinez@bank.com'),
-('Avahernandez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Ava.hernandez@bank.com'),
-('Avalopez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Ava.lopez@bank.com'); -- password: matthew2023
+INSERT INTO staffcredential (staff_id,username,staff_password,staff_email)
+VALUES(1,'johndoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','john.doe@bank.com'), -- password: password123
+(2,'janesmith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jane.smith@bank.com'), -- password: mysecurepassword
+(3,'michaeljohnson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','michael.johnson@bank.com'), -- password: mjohnson2023
+(4,'emilydavis', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','emily.davis@bank.com'), -- password: emily123
+(5,'davidwilson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','david.wilson@bank.com'), -- password: wilson2023
+(6,'sarahbrown', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','sarah.brown@bank.com'), -- password: sarahsecure
+(7,'jamesgarcia', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','james.garcia@bank.com'), -- password: garcia2023
+(8,'jessicamartinez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jessica.martinez@bank.com'), -- password: martinez123
+(9,'danielhernandez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','daniel.hernandez@bank.com'), -- password: daniel2023
+(10,'lauralopez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','laura.lopez@bank.com'), -- password: laura123
+(11,'matthewdoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Matthew.doe@bank.com'),  -- password: matthew123
+(12,'janesmith1', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jane.smith1@bank.com'),
+(13,'michaeljohnson1', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','michael.johnson1@bank.com'),
+(14,'sophiadavis', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Sophia.davis@bank.com'),
+(15,'davidwilson1', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','david.wilson1@bank.com'),
+(16,'christopherbrown', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Christopher.brown@bank.com'),
+(17,'oliviagarcia', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Olivia.garcia@bank.com'),
+(18,'Joshuamartinez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Joshua.martinez@bank.com'),
+(19,'Avahernandez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Ava.hernandez@bank.com'),
+(20,'Avalopez', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Ava.lopez@bank.com'); -- password: matthew2023
 
 -- Drop the structure& records from the table
 drop table staffcredential; 
@@ -368,42 +368,42 @@ select * from staffcredential;
 --------------------------------------------------------*/
 
 create table accounttype (
-    account_type_id int primary key auto_increment,
-    account_type_name varchar(50) not null UNIQUE,
-    description TEXT,
-    minimum_balance decimal(10, 2),
-    interest_rate decimal(5, 2),
-    account_fee decimal(10, 2),
-    withdrawal_limit decimal(10, 2),
-    created_at timestamp default current_timestamp,
+    account_type_id int primary key auto_increment,  -- Unique identifier for each staff (Primary Key)
+    account_type_name varchar(50) not null UNIQUE, -- check the type of account where it saving or current account etc.
+    description TEXT, -- description of the account
+    minimum_balance decimal(10, 2), -- min balance available in account to keep it open
+    interest_rate decimal(5, 2), -- interest per account
+    account_fee decimal(10, 2), -- account opening charges
+    withdrawal_limit decimal(10, 2), -- how much balance user will be withdraw from account
+    created_at timestamp default current_timestamp, -- last record created & updated date
     updated_at timestamp default current_timestamp,
-    is_active enum('1','0') not null
+    is_active enum('1','0') not null -- check account account is active or not
 );
 
 
 -- Inserting records into table
 
-INSERT INTO accounttype (account_type_name, description) VALUES
-('Savings Account', 'An account that earns interest on deposits and is used for saving money.'),
-('Checking Account', 'An account that allows for deposits and withdrawals, typically used for daily transactions.'),
-('Business Account', 'An account designed for business transactions and operations.'),
-('Joint Account', 'An account shared by two or more individuals.'),
-('Certificate of Deposit (CD)', 'A time deposit account that earns interest at a fixed rate for a specified term.'),
-('Money Market Account', 'A savings account that typically earns a higher interest rate and may require a higher minimum balance.'),
-('Retirement Account', 'An account designed for retirement savings, such as an IRA.'),
-('Student Account', 'An account designed for students, often with lower fees and minimum balance requirements.'),
-('Senior Citizen Account', 'An account with benefits tailored for senior citizens.'),
-('Health Savings Account (HSA)', 'An account that allows individuals to save for medical expenses with tax advantages.'),
-('Trust Account', 'An account held in the name of a trust for the benefit of a third party.'),
-('Foreign Currency Account', 'An account that holds funds in foreign currencies.'),
-('Investment Account', 'An account used for buying and selling investments, such as stocks and bonds.'),
-('Online Savings Account', 'A savings account that is managed online, often with higher interest rates.'),
-('High-Yield Savings Account', 'A savings account that offers a higher interest rate than traditional savings accounts.'),
-('Checking Plus Account', 'A checking account that offers additional features and benefits.'),
-('Business Savings Account', 'A savings account designed specifically for business savings.'),
-('Youth Account', 'An account designed for minors, often with parental oversight.'),
-('Payroll Account', 'An account used for direct deposit of payroll checks.'),
-('Special Purpose Account', 'An account designated for a specific purpose, such as travel or education savings.');
+INSERT INTO accounttype (account_type_name, description,minimum_balance,interest_rate,account_fee,withdrawal_limit) 
+VALUES('Savings Account', 'An account that earns interest on deposits and is used for saving money.',1000.00,5.45,0.00,25000.00),
+('Checking Account', 'An account that allows for deposits and withdrawals, typically used for daily transactions.',1000.98,5.45,0.00,50000.00),
+('Business Account', 'An account designed for business transactions and operations.',10000.00,5.45,0.00,55000.00),
+('Joint Account', 'An account shared by two or more individuals.',1000.00,5.45,0.00,25000.00),
+('Certificate of Deposit (CD)', 'A time deposit account that earns interest at a fixed rate for a specified term.',1000.00,5.45,0.00,25000.00),
+('Money Market Account', 'A savings account that typically earns a higher interest rate and may require a higher minimum balance.',1000.00,5.45,0.00,25000.00),
+('Retirement Account', 'An account designed for retirement savings, such as an IRA.',1000.00,5.45,0.00,25000.00),
+('Student Account', 'An account designed for students, often with lower fees and minimum balance requirements.',1000.00,5.45,0.00,25000.00),
+('Senior Citizen Account', 'An account with benefits tailored for senior citizens.',1000.00,5.45,0.00,25000.00),
+('Health Savings Account (HSA)', 'An account that allows individuals to save for medical expenses with tax advantages.',1000.00,5.45,0.00,25000.00),
+('Trust Account', 'An account held in the name of a trust for the benefit of a third party.',1000.00,5.45,0.00,25000.00),
+('Foreign Currency Account', 'An account that holds funds in foreign currencies.',1000.00,5.45,0.00,25000.00),
+('Investment Account', 'An account used for buying and selling investments, such as stocks and bonds.',1000.00,5.45,0.00,25000.00),
+('Online Savings Account', 'A savings account that is managed online, often with higher interest rates.',1000.00,5.45,0.00,25000.00),
+('High-Yield Savings Account', 'A savings account that offers a higher interest rate than traditional savings accounts.',1000.00,5.45,0.00,25000.00),
+('Checking Plus Account', 'A checking account that offers additional features and benefits.',1000.00,5.45,0.00,25000.00),
+('Business Savings Account', 'A savings account designed specifically for business savings.',1000.00,5.45,0.00,25000.00),
+('Youth Account', 'An account designed for minors, often with parental oversight.',1000.00,5.45,0.00,25000.00),
+('Payroll Account', 'An account used for direct deposit of payroll checks.',1000.00,5.45,0.00,25000.00),
+('Special Purpose Account', 'An account designated for a specific purpose, such as travel or education savings.',1000.00,5.45,0.00,25000.00);
 
 -- Drop the structure& records from the table
 drop table accounttype; 
@@ -418,17 +418,17 @@ select * from accounttype;
 				 Table 9 - Loan Type
 --------------------------------------------------------*/
 create table loantype (
-    loan_type_id int primary key auto_increment,
-    loan_type_name varchar(100) NOT NULL UNIQUE,
-    description text,
-    interest_rate decimal(5,2),
-    loan_term varchar(50),
-    minimum_amount decimal(10, 2) check (minimum_amount>0),
-    maximum_amount decimal(10, 2) check (maximum_amount>0),
-    processing_fee decimal(10, 2) check (processing_fee>0),
-    created_at timestamp default current_timestamp,
+    loan_type_id int primary key auto_increment, --  Unique identifier for each staff (Primary Key)
+    loan_type_name varchar(100) NOT NULL UNIQUE, -- types of the loan
+    description text, -- description of the loan type
+    interest_rate decimal(5,2), -- interest rate applied different loan type
+    loan_term varchar(50), -- Duration of the loan 
+    minimum_amount decimal(10, 2) check (minimum_amount>0), -- Minimum loan amount that can be borrowed.
+    maximum_amount decimal(10, 2) check (maximum_amount>0), -- Maximum loan amount available for borrowing.
+    processing_fee decimal(10, 2) check (processing_fee>0), -- processing fee which applied for loan documentation & work
+    created_at timestamp default current_timestamp, -- last record created & updated date
     updated_at timestamp default current_timestamp,
-    is_active enum('1','0') not null
+    is_active enum('1','0') not null -- loan is active or not
 );
 
 
@@ -469,11 +469,11 @@ select * from loantype;
 				 Table 10 - Payment method Type
 --------------------------------------------------------*/
 create table PaymentMethod (
-    payment_method_id int primary key auto_increment,
-    payment_method_name varchar(100) NOT NULL UNIQUE,
-    description text,
-    transaction_fee decimal(10, 2) DEFAULT 0.00,
-    is_active enum('1','0') not null
+    payment_method_id int primary key auto_increment, --  Unique identifier for each staff (Primary Key)
+    payment_method_name varchar(100) NOT NULL UNIQUE, -- payment method like cash card gpay
+    description text, -- description of the payment method
+    transaction_fee decimal(10, 2) DEFAULT 0.00, -- if we used 3rd party payment method then applied charges
+    is_active enum('1','0') not null -- check payment method is active or not 
 );
 
 
@@ -514,15 +514,15 @@ select * from PaymentMethod;
 				 Table 11 - Policy 
 --------------------------------------------------------*/
 create table policies (
-    policy_id int primary key auto_increment,
-    policy_name varchar(100) NOT NULL,
-    description text(300),
-    start_date date,
-    end_date date,
-    coverage_amount decimal(15, 2),
-    premium_amount decimal(15, 2),
-    interest_rate decimal(5, 2),
-    term_length int,
+    policy_id int primary key auto_increment, -- A unique identifier for each policy (primary key).
+    policy_name varchar(100) NOT NULL, -- The name of the policy (e.g., "Loan Approval Policy", "Customer Privacy Policy").
+    description text(300), -- A detailed description of the policy, outlining its purpose and key points.
+    start_date date, -- The date when the policy comes into effect.
+    end_date date, -- The date when the policy is set to expire (if applicable). This can be NULL if the policy is ongoing.
+    coverage_amount decimal(15, 2), -- The date when the policy is set to expire (if applicable). This can be NULL if the policy is ongoing.
+    premium_amount decimal(15, 2), -- This column represents the cost of the policy, which can be a monthly or annual premium.
+    interest_rate decimal(5, 2), --  interest rate applied different policy type
+    term_length int, -- Duration of the policy
     status varchar(20) DEFAULT 'Active',
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
@@ -573,20 +573,20 @@ select * from policies;
 --------------------------------------------------------*/
 
 create table account_details (
-    account_id int primary key auto_increment,
-    account_number varchar(20) UNIQUE NOT NULL,
-    account_type varchar(50) NOT NULL,
-    balance decimal(15, 2) DEFAULT 0.00,
-    currency varchar(3) NOT NULL,
-    status varchar(20) DEFAULT 'Active',
-	customer_id int,
-    opening_date date NOT NULL,
-    closing_date date,
-    interest_rate decimal(5, 2),
-    minimum_balance decimal(15, 2),
-    overdraft_limit decimal(15, 2),
-    branch_id int,
-    created_at timestamp default current_timestamp,
+    account_id int primary key auto_increment,  -- A unique identifier for each policy (primary key).
+    account_number varchar(20) UNIQUE NOT NULL, -- account number of bank account which opened by customer
+    account_type varchar(50) NOT NULL, -- type of the account opened by customer
+    balance decimal(15, 2) DEFAULT 0.00, -- balance available in the account
+    currency varchar(3) NOT NULL, -- cuurency use by bank
+    status varchar(20) DEFAULT 'Active', -- status of account
+	customer_id int, -- this is primary key in customer table which we use as foreign key
+    opening_date date NOT NULL, -- opening date of the bank account
+    closing_date date, -- closing date of the bank account
+    interest_rate decimal(5, 2), -- annual interest rate applied to the account
+    minimum_balance decimal(15, 2), --  minimum balance that must be maintained in the account to avoid penalties or fees
+    overdraft_limit decimal(15, 2), -- maximum amount that an account can be overdrawn
+    branch_id int, -- id of the branch to which account is associated
+    created_at timestamp default current_timestamp, -- last record created & updated date
     updated_at timestamp default current_timestamp,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
     on delete set NULL
@@ -641,16 +641,16 @@ select * from account_details;
 				 Table 13 - Bank Transaction
 --------------------------------------------------------*/
 create table bank_transactions (
-    transaction_id int primary key auto_increment,
-    transaction_date datetime NOT NULL,
-    transaction_type varchar(20) NOT NULL,
-    transaction_amount decimal(15, 2) NOT NULL,
-    currency varchar(3) NOT NULL,
-    account_id INT,
-    description TEXT,
-    transaction_status varchar(20) DEFAULT 'Completed',
-    medium_of_transaction varchar(20),
-    reference_number varchar(40) unique not null,
+    transaction_id int primary key auto_increment, -- A unique identifier for each bank transaction (primary key).
+    transaction_date datetime NOT NULL, --  records the date and time when the transaction occurred
+    transaction_type varchar(20) NOT NULL, -- the type of transaction being recorded, such as "Deposit," "Withdrawal
+    transaction_amount decimal(15, 2) NOT NULL, -- amount of money involved in the transaction
+    currency varchar(3) NOT NULL, -- the currency in which the transaction is conducted
+    account_id INT, -- foreign key linking the transaction to a specific bank account
+    description TEXT, -- additional details about the transaction
+    transaction_status varchar(20) DEFAULT 'Completed', -- indicates the current status of the transaction, such as "Completed," "Pending,
+    medium_of_transaction varchar(20), --  method through which the transaction was conducted, such as "Online," "ATM," 
+    reference_number varchar(40) unique not null, -- unique reference number for the transaction, which can be used for tracking and reconciliation purposes
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     FOREIGN KEY (account_id) REFERENCES account_details(account_id)
@@ -698,16 +698,16 @@ select * from bank_transactions;
 --------------------------------------------------------*/
 
 create table loan_details (
-    loan_id int primary key auto_increment,
-    loan_type varchar(50) NOT NULL,
-    loan_amount decimal(15, 2) NOT NULL,
-    interest_rate decimal(5, 2) NOT NULL,
-    term_length int NOT NULL, -- in months
-    start_date date NOT NULL,
-    end_date date NOT NULL,
-    monthly_payment decimal(15, 2) NOT NULL,
-    status varchar(20) DEFAULT 'Active',
-    customer_id int,
+    loan_id int primary key auto_increment, -- unique identifier for each loan record. It is defined as the primary key
+    loan_type varchar(50) NOT NULL, -- the type of loan being issued, such as Personal Loan,Home Loan ,Auto Loan
+    loan_amount decimal(15, 2) NOT NULL, -- the total amount of money being borrowed through the loan
+    interest_rate decimal(5, 2) NOT NULL, -- the annual interest rate applied to the loan.
+    term_length int NOT NULL, --  length of the loan term in months 
+    start_date date NOT NULL, -- the date when the loan agreement becomes effective and the borrower can access the funds. 
+    end_date date NOT NULL, -- the date when the loan is scheduled to be fully repaid
+    monthly_payment decimal(15, 2) NOT NULL, -- the amount that the borrower is required to pay each month to repay the loan
+    status varchar(20) DEFAULT 'Active', -- the current status of the loan, such as Active,Paid Off etc
+    customer_id int,  -- foreign key linking the loan to a specific customer account
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) 
@@ -754,16 +754,16 @@ select * from loan_details;
 				 Table 15 - Credit Card
 --------------------------------------------------------*/
 create table credit_card (
-    card_id int primary key auto_increment,
-    card_type varchar(50) NOT NULL,
-    card_number varchar(25) NOT NULL UNIQUE,
-    exp_month int NOT NULL,
-    exp_year int NOT NULL,
-    cardholder_name varchar(100) NOT NULL,
-    cvv int NOT NULL,
-    balance decimal(15, 2) DEFAULT 0.00,
-    status varchar(20) DEFAULT 'Active',
-    customer_id int,
+    card_id int primary key auto_increment, --  unique identifier for each card record.
+    card_type varchar(50) NOT NULL, --  the type of card being issued, such as Credit Card,Debit Card,Prepaid Card
+    card_number varchar(25) NOT NULL UNIQUE, --  the unique number assigned to the card, which is used for transactions.
+    exp_month int NOT NULL, -- month when the card expires, represented 
+    exp_year int NOT NULL, -- indicates the year when the card expires
+    cardholder_name varchar(100) NOT NULL, --  name of the individual or entity to whom the card is issued.
+    cvv int NOT NULL, -- represents the Card Verification Value (CVV), a security feature used to verify that the cardholder
+    balance decimal(15, 2) DEFAULT 0.00, -- indicates the current balance available on the card,
+    status varchar(20) DEFAULT 'Active', -- indicates the current status of the card, such as Active,Inactive,Blocked
+    customer_id int, --  foreign key linking the card to a specific customer
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) 
@@ -808,12 +808,12 @@ select * from credit_card;
 				 Table 16 - payment history
 --------------------------------------------------------*/
 CREATE TABLE payment_history (
-    payment_id int primary key auto_increment,
-    payment_date date,
-    amount decimal(10, 2),
-    payment_method_name varchar(100),
-    status varchar(10),
-    account_number varchar(20),
+    payment_id int primary key auto_increment, --  unique identifier for each payment record.
+    payment_date date, --  records the date when the payment was made.
+    amount decimal(10, 2), --  total amount of money involved in the payment
+    payment_method_name varchar(100), -- indicates the method used to make the payment, such as Credit Card,Debit Card, Bank Transfer etc
+    status varchar(10), -- indicates the current status of the payment, such as Completed,Pending,Failed,Refunded
+    account_number varchar(20), -- contains the account number associated with the payment.
     foreign key (payment_method_name) references PaymentMethod(payment_method_name)
     on delete set NULL
     on update cascade,
@@ -861,13 +861,13 @@ select * from payment_history;
 				 Table 17 - Customer Reviews
 --------------------------------------------------------*/
 CREATE TABLE BankCustomerReviews (
-    ReviewID INT PRIMARY KEY AUTO_INCREMENT,
-    customer_id INT,
-    bank_id INT,
-    Rating INT CHECK (Rating BETWEEN 1 AND 5),
-    ReviewText TEXT,
-    ReviewDate DATETIME,
-    UsefulCount INT,
+    ReviewID INT PRIMARY KEY AUTO_INCREMENT, -- unique identifier for each review record. 
+    customer_id INT, --  Identifier for the customer who submitted the review, linking it to the customer table.
+    bank_id INT, -- Identifier for the bank being reviewed, linking it to the bank table.
+    Rating INT CHECK (Rating BETWEEN 1 AND 5), -- Customer's rating of the bank on a scale of 1 to 5
+    ReviewText TEXT, -- Text of the review, allowing for detailed customer feedback
+    ReviewDate DATETIME, --  Date and time when the review was submitted
+    UsefulCount INT, -- Count of how many users found the review helpful
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 	on delete set NULL
     on update cascade,
@@ -1323,7 +1323,3 @@ truncate table deposits;
 -- Select query 
 -- 1.Display all records
 select * from deposits;
-
-
-
-
