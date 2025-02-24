@@ -244,8 +244,8 @@ VALUES(1,'johndoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1
 (16,'avamoore', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','ava.moore@example.com',555-678-9013), -- password: ava123
 (17,'ethanjackson', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','ethan.jackson@example.com',555-789-0124), -- password: ethan123
 (18,'miawhite', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','mia.white@example.com',555-890-1235), -- password: mia123
-(21,'jackdoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jack.doe@example.com',555-123-4589), -- password: jack123
-(22,'julismith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Juli.smith@example.com',555-234-5687); --  -- password: Juli123
+(19,'jackdoe', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','jack.doe@example.com',555-123-4589), -- password: jack123
+(20,'julismith', '$2y$10$EIXZ1Z1Z1Z1Z1Z1Z1Z1Z1Oe1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1','Juli.smith@example.com',555-234-5687); --  -- password: Juli123
 
 -- Drop the structure& records from the table
 drop table CustomerCredential; 
@@ -362,6 +362,9 @@ truncate table staffcredential;
 -- Select query 
 -- 1.Display all records
 select * from staffcredential;
+
+select * from staffcredential where created_at like '%2025-01-26%';
+
 
 /* ----------------------------------------------------
 				 Table 8- Account Type
@@ -624,8 +627,8 @@ INSERT INTO account_details (account_number, account_type, balance, currency, st
 ('ACC100017', 'Business Account', 6000.00, 'USD', 'Active', 16,'2018-01-08',8.40,500,25000,4),
 ('ACC100018', 'Joint Account', 7000.00, 'USD', 'Active', 17,'2018-01-08',8.40,500,25000,15),
 ('ACC100019', 'Savings Account', 8500.00, 'USD', 'Active', 18,'2018-01-08',8.40,500,25000,16),
-('ACC100020', 'Checking Account', 950.00, 'USD', 'Active', 21,'2018-01-08',8.40,500,25000,17),
-('ACC100021', 'Checking Account', 950.00, 'USD', 'Active', 22,'2018-01-08',8.40,500,25000,17);
+('ACC100020', 'Checking Account', 950.00, 'USD', 'Active', 19,'2018-01-08',8.40,500,25000,17),
+('ACC100021', 'Checking Account', 950.00, 'USD', 'Active', 20,'2018-01-08',8.40,500,25000,17);
 
 -- Drop the structure& records from the table
 drop table account_details; 
@@ -636,6 +639,7 @@ truncate table account_details;
 -- Select query 
 -- 1.Display all records
 select * from account_details;
+
 
 /* ----------------------------------------------------
 				 Table 13 - Bank Transaction
@@ -693,6 +697,8 @@ truncate table bank_transactions;
 -- Select query 
 -- 1.Display all records
 select * from bank_transactions;
+select * from account_details;
+
 /* ----------------------------------------------------
 				 Table 14- loan_details
 --------------------------------------------------------*/
@@ -792,8 +798,8 @@ INSERT INTO credit_card (card_type, card_number, exp_month, exp_year, cardholder
 ('Discover', '6011000990139427', 9, 2023, 'Oscar Cyan', 753, 6200.00, 'Active', 16),
 ('Visa', '4111111111111115', 8, 2025, 'Paul Magenta', 852, 2800.00, 'Active', 17),
 ('MasterCard', '5500000000000008', 7, 2024, 'Quinn Brown', 246, 3300.00, 'Active', 18),
-('American Express', '378282246310009', 6, 2026, 'Rita White', 159, 7200.00, 'Active', 21),
-('Discover', '6011000990139428', 5, 2023, 'Sam Black', 753, 4100.00, 'Active', 22);
+('American Express', '378282246310009', 6, 2026, 'Rita White', 159, 7200.00, 'Active', 19),
+('Discover', '6011000990139428', 5, 2023, 'Sam Black', 753, 4100.00, 'Active', 20);
 
 -- Drop the structure& records from the table
 drop table credit_card; 
@@ -878,26 +884,27 @@ CREATE TABLE BankCustomerReviews (
 
 -- Inserting records into table
 
-INSERT INTO BankCustomerReviews (ReviewID, CustomerID, BankID, Rating, ReviewText, ReviewDate, UsefulCount) VALUES
-(1, 101, 201, 5, 'Excellent service and friendly staff!', '2025-01-01', 10),
-(2, 102, 202, 4, 'Good experience, but the wait time was long.', '2025-01-02', 5),
-(3, 103, 203, 3, 'Average service, nothing special.', '2025-01-03', 2),
-(4, 104, 204, 2, 'Had issues with my account, not satisfied.', '2025-01-04', 1),
-(5, 105, 205, 1, 'Terrible experience, will not return.', '2025-01-05', 0),
-(6, 106, 206, 5, 'Highly recommend! Quick and efficient.', '2025-01-06', 15),
-(7, 107, 207, 4, 'Good rates, but customer service could improve.', '2025-01-07', 8),
-(8, 108, 208, 3, 'Decent bank, but I found better options.', '2025-01-08', 3),
-(9, 109, 209, 2, 'Not happy with the fees.', '2025-01-09', 1),
-(10, 110, 210, 5, 'Best bank I have ever used!', '2025-01-10', 20),
-(11, 111, 211, 4, 'Solid bank, but the app is buggy.', '2025-01-11', 7),
-(12, 112, 212, 3, 'Okay service, but could be better.', '2025-01-12', 4),
-(13, 113, 213, 2, 'Not impressed with the loan process.', '2025-01-13', 2),
-(14, 114, 214, 1, 'Horrible experience, avoid at all costs.', '2025-01-14', 0),
-(15, 115, 215, 5, 'Fantastic customer support!', '2025-01-15', 12),
-(16, 116, 216, 4, 'Great bank, but the website is slow.', '2025-01-16', 6),
-(17, 117, 217, 3, 'Average experience, nothing to complain about.', '2025-01-17', 3),
-(18, 118, 218, 2, 'Had some issues with my debit card.', '2025-01-18', 1),
-(19, 119, 219, 1, 'Very poor service, will not recommend.', '2025-01-19', 0);
+INSERT INTO BankCustomerReviews (ReviewID, customer_id, Bank_ID, Rating, ReviewText, ReviewDate, UsefulCount) VALUES
+(1, 1, 1, 5, 'Excellent service and friendly staff!', '2025-01-01', 10),
+(2, 2, 2, 4, 'Good experience, but the wait time was long.', '2025-01-02', 5),
+(3, 3, 3, 3, 'Average service, nothing special.', '2025-01-03', 2),
+(4, 4, 4, 2, 'Had issues with my account, not satisfied.', '2025-01-04', 1),
+(5, 5, 5, 1, 'Terrible experience, will not return.', '2025-01-05', 0),
+(6, 6, 6, 5, 'Highly recommend! Quick and efficient.', '2025-01-06', 15),
+(7, 7, 7, 4, 'Good rates, but customer service could improve.', '2025-01-07', 8),
+(8, 8, 8, 3, 'Decent bank, but I found better options.', '2025-01-08', 3),
+(9, 9, 9, 2, 'Not happy with the fees.', '2025-01-09', 1),
+(10, 10, 10, 5, 'Best bank I have ever used!', '2025-01-10', 20),
+(11, 11, 11, 4, 'Solid bank, but the app is buggy.', '2025-01-11', 7),
+(12, 12, 12, 3, 'Okay service, but could be better.', '2025-01-12', 4),
+(13, 13, 13, 2, 'Not impressed with the loan process.', '2025-01-13', 2),
+(14, 14, 14, 1, 'Horrible experience, avoid at all costs.', '2025-01-14', 0),
+(15, 15, 15, 5, 'Fantastic customer support!', '2025-01-15', 12),
+(16, 16, 16, 4, 'Great bank, but the website is slow.', '2025-01-16', 6),
+(17, 17, 17, 3, 'Average experience, nothing to complain about.', '2025-01-17', 3),
+(18, 18, 18, 2, 'Had some issues with my debit card.', '2025-01-18', 1),
+(19, 19, 19, 1, 'Very poor service, will not recommend.', '2025-01-19', 0),
+(20, 20, 20, 1, 'Very poor service, will not recommend.', '2025-01-19', 0);
 
 
 -- Drop the structure& records from the table
@@ -909,6 +916,8 @@ truncate table BankCustomerReviews;
 -- Select query 
 -- 1.Display all records
 select * from BankCustomerReviews;
+
+
 /* ----------------------------------------------------
 				 Table 18 - Bank Statements
 --------------------------------------------------------*/
@@ -1108,7 +1117,7 @@ INSERT INTO bonds (account_id, bond_name, bond_type, purchase_date, face_value, 
 (3, 'Municipal Bond TX', 'Municipal', '2023-03-15', 9000.00, 8800.00, 9500.00, 3.10, '2035-03-15'),
 (4, 'Microsoft Corporate Bond', 'Corporate', '2023-01-30', 11000.00, 10800.00, 11500.00, 2.85, '2029-01-30'),
 (4, 'US Treasury Bond 7Y', 'Government', '2023-02-25', 13000.00, 12800.00, 13500.00, 2.40, '2030-02-25'),
-(4, 'Municipal Bond FL', 'Municipal', '2023-03-20', 6000.00, 5900.00, 6200.00, 3.20);
+(4, 'Municipal Bond FL', 'Municipal', '2023-03-20', 6000.00, 5900.00, 6200.00, 3.20,'2030-02-25');
 
 -- Drop the structure& records from the table
 drop table bonds; 
@@ -1323,3 +1332,7 @@ truncate table deposits;
 -- Select query 
 -- 1.Display all records
 select * from deposits;
+
+
+
+
